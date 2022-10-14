@@ -17,7 +17,7 @@ class Post {
     String title;
     String body;
 
-    factory Post.fromJson(Map<String, dynamic> json) => Post(
+    factory Post.fromJson(json) => Post(
         userId: json["userId"],
         id: json["id"],
         title: json["title"],
