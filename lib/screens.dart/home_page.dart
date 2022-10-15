@@ -10,6 +10,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     Provider.of<PostState>(context,listen: false).getPostsData(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Infinite Posts'),
@@ -42,7 +43,7 @@ class HomePage extends StatelessWidget {
           itemCount: provider.posts.length + (provider.isLastPage ? 0 : 1),
           itemBuilder: (context, index) {
             if(index == provider.posts.length - provider.nextPageTrigger){
-              Future<List<Post>> data =  PostService.fetchPostData(provider.pageNumber, provider.numberOfPostsPerRequest);
+              Future<List<Post>> data =  PostService.fetchPostData(provider.pageNumber, provider.numberOfPostsPerRequest, context);
               data.then((value) => provider.setPosts(value));
               provider.setLoading(false);
               provider.setPageNumber(provider.pageNumber+1);

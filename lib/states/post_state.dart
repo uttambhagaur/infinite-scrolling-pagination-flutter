@@ -3,18 +3,20 @@ import 'package:infinite_scrolling_pagination_flutter/model/post.dart';
 import 'package:infinite_scrolling_pagination_flutter/services/post_service.dart';
 
 class PostState extends ChangeNotifier {
-  PostState() {
+  getPostsData(BuildContext context) async {
     _pageNumber = 0;
     _posts = [];
     _isLastPage = false;
     _loading = true;
     _error = false;
-    Future<List<Post>> data =
-        PostService.fetchPostData(pageNumber, numberOfPostsPerRequest);
-    data.then((value) => setPosts(value));
+    List<Post> data = await
+      PostService.fetchPostData(pageNumber, numberOfPostsPerRequest, context);
+    // data.then((value) => setPosts(value));
+    posts.addAll(data);
     setLoading(false);
     setPageNumber(pageNumber + 1);
     setIsLastPage(posts.length < numberOfPostsPerRequest);
+    notifyListeners();
   }
 
   // to check whether there is more data to fetch
